@@ -21,155 +21,260 @@ Package: com.example.z
 ## 1. Foundation & Architecture
 Status: [>] IN PROGRESS
 
-Completed:
-- [x] Core package created
-- [x] ZCore lifecycle contract created
-- [x] ZCoreImpl created
-- [x] Core lifecycle unit tests created and passing
-- [x] ZApplication created
-- [x] ZApplication registered in AndroidManifest
-- [x] MainActivity obtains shared ZCore instance
-- [x] Malformed generated Manifest repaired
-- [x] Minimal Foundation MainScreen created
-- [x] MainNavigation cleaned to call MainScreen
-- [x] compileDebugKotlin successful
-- [x] testDebugUnitTest successful
-- [x] assembleDebug successful
+Verified implementation:
+- [x] Core package created.
+- [x] ZCore lifecycle contract created.
+- [x] ZCoreImpl created.
+- [x] Core lifecycle unit tests created and passing.
+- [x] ZApplication created and starts ZCore.
+- [x] ZApplication registered in AndroidManifest.
+- [x] MainActivity obtains the shared ZCore instance.
+- [x] MainActivity passes ZCore to MainNavigation.
+- [x] MainNavigation passes ZCore to MainScreen.
+- [x] MainScreen displays ZCore state.
+- [x] Malformed generated AndroidManifest repaired.
+- [x] Minimal Foundation MainScreen created.
+- [x] Legacy DataRepository/MainScreenViewModel/NavigationKeys obsolete wiring was removed after reference checking.
+- [x] Final reference check for DataRepository/MainScreenViewModel/NavigationKeys/MainKey returned no results.
+- [x] compileDebugKotlin successful.
+- [x] testDebugUnitTest successful.
+- [x] assembleDebug successful.
 
 Still required:
-- [ ] Verify final shared Core -> Activity -> Navigation -> UI wiring
-- [ ] Reconcile legacy generated template files
-- [ ] Remove only confirmed unused/duplicate legacy wiring
-- [ ] Final Foundation integration test
-- [ ] Final Foundation verification
-- [ ] Update this section to [x] only after all acceptance criteria pass
+- [ ] Physical Android/emulator runtime launch verification.
+- [ ] Final Foundation integration test/acceptance verification that includes the current shared Core -> Activity -> Navigation -> UI path.
+- [ ] Final Foundation status change to COMPLETED only after runtime/integration acceptance succeeds.
 
 Acceptance:
-Foundation is COMPLETE only after implementation + integration + tests + verification.
+Foundation is COMPLETE only after implementation + integration + tests + required runtime verification.
 
 ---
 
 ## 2. AI Brain / Model Layer
 Status: [>] IN PROGRESS
-Implemented / verified:
-- AIProvider abstraction
-- AIRequest / AIResponse / AITaskType
-- AIProviderCapabilities
-- AIProviderRegistry
-- AIProviderRouter
-- AIBrain / AIBrainImpl
-- ZCore integration with AI Brain
-- ModelRuntime abstraction
-- UnavailableModelRuntime
-- ModelRuntimeInfo
-- LocalAIProvider wired to ModelRuntime
-- Native llama.cpp runtime adapter and JNI bridge
-- GGUF ModelManager with app-private model storage
-- Android document picker for GGUF import
-- Online OpenAI-compatible provider
-- AIProviderConfig
-- Android Keystore-backed SecureApiKeyStore
-- Corrected online provider request/error handling
-- Verified/corrected llama.cpp JNI benchModel naming
-- Kotlin, native, unit-test and debug APK build verification
+
+Verified implementation/build/test coverage:
+- [x] AIProvider abstraction.
+- [x] AIRequest / AIResponse / AITaskType.
+- [x] AIProviderCapabilities.
+- [x] AIProviderRegistry.
+- [x] AIProviderRouter.
+- [x] AIBrain / AIBrainImpl.
+- [x] ZCore integration with AI Brain.
+- [x] ModelRuntime abstraction.
+- [x] UnavailableModelRuntime.
+- [x] ModelRuntimeInfo.
+- [x] LocalAIProvider wired to ModelRuntime.
+- [x] Native llama.cpp runtime adapter and Z JNI bridge.
+- [x] Native llama.cpp build verification.
+- [x] GGUF ModelManager with app-private model storage.
+- [x] Android document picker for GGUF import.
+- [x] Online OpenAI-compatible provider.
+- [x] AIProviderConfig.
+- [x] Android Keystore-backed SecureApiKeyStore.
+- [x] Online provider request/error handling corrected.
+- [x] llama.cpp JNI benchModel naming verified/corrected.
+- [x] Kotlin compilation, unit-test and debug APK assembly verification.
 
 Still required:
-- Real Android-device/emulator GGUF load + inference verification
-- Real authorized online API request/response verification
-- Runtime Android Keystore save/retrieve/clear verification
-- Resource-aware provider selection beyond the current router
-- Final Step 2 acceptance verification
+- [ ] Real Android-device/emulator GGUF load + inference verification.
+- [ ] Real Android-device/emulator GGUF streaming verification.
+- [ ] Real authorized online API request/response verification.
+- [ ] Runtime Android Keystore save/retrieve/clear verification.
+- [ ] Complete resource-aware provider selection beyond the current router.
+- [ ] Final Step 2 acceptance verification.
+
+Important:
+- No fake AI response is being used as a substitute for real runtime verification.
+- Do not recreate the existing provider/runtime architecture merely because device verification is pending.
 
 ---
 
 ## 3. Chat System
-
 Status: [>] IN PROGRESS
 
-Verified implementation progress — 2026-09-18:
+Verified implementation:
+- [x] ChatMessage user/assistant message model.
+- [x] ChatViewModel connected to ZCore/AIBrain.
+- [x] Send/request/response lifecycle.
+- [x] Stop/cancel generation path.
+- [x] Error handling and retry.
+- [x] User-message edit/delete actions.
+- [x] Empty-input protection.
+- [x] Automatic scroll to latest message.
+- [x] Keyboard-safe IME padding.
+- [x] Responsive Send/Stop UI.
+- [x] ChatScreen wired through MainScreen/MainNavigation.
+- [x] AIStreamingBrain abstraction.
+- [x] AIStreamingProvider abstraction.
+- [x] ModelStreamingRuntime abstraction.
+- [x] LocalAIProvider streaming path with non-streaming fallback.
+- [x] AIBrainImpl streaming routing/provider fallback.
+- [x] LlamaCppModelRuntime connected to native generateNextToken() streaming.
+- [x] ChatViewModel consumes streaming chunks.
+- [x] ChatScreen Send action uses streaming.
+- [x] Chat streaming unit test passes.
+- [x] ChatViewModel tests pass.
+- [x] Kotlin compilation passes after streaming integration.
 
-- ChatMessage user/assistant message model implemented.
-- ChatViewModel connected to the existing ZCore/AIBrain architecture.
-- Send request/response lifecycle implemented.
-- Stop/cancel generation behavior implemented.
-- Error state and Retry handling implemented.
-- User message edit/delete implemented.
-- Empty-input protection implemented.
-- Automatic scroll to latest message implemented.
-- Keyboard-safe chat layout implemented with IME padding.
-- Responsive Send/Stop UI implemented.
-- ChatScreen wired through MainScreen and MainNavigation.
-- ChatViewModel unit tests implemented and passing.
-- Kotlin compilation verified after the latest Retry UI change.
+Still pending:
+- [ ] Persistent conversation integration with Step 4 Memory.
+- [ ] Real Android-device GGUF streaming/inference verification.
+- [ ] Real cancellation behavior verification on Android hardware.
+- [ ] Final Step 3 acceptance verification.
 
-Still required before Step 3 can be marked COMPLETED:
+Status rule:
+Step 3 remains IN PROGRESS until implementation, integration, tests and required runtime verification are complete.
 
-- Streaming generation lifecycle.
-- Persistent conversation integration with Memory.
-- Real Android runtime verification on a physical device/emulator.
+---
 
-Important:
-- Step 3 remains IN PROGRESS.
-- Do not recreate already-implemented Chat components.
-- COMPLETED requires implementation + integration + testing + verification.
 ## 4. Memory System
-Status: [ ] NOT STARTED
-Planned:
-- Persistent memory architecture
-- Conversation memory
-- Structured memory
-- Retrieval
-- Privacy/security boundaries
+Status: [>] IN PROGRESS
+
+Verified implementation:
+- [x] kotlinx.serialization JSON dependency added and verified.
+- [x] MemoryEntry structured persistent-memory model created.
+- [x] MemoryRepository abstraction created.
+- [x] JsonMemoryRepository created using app-private `context.filesDir/memory.json`.
+- [x] JSON repository supports save/update, get, delete, getAll, search and clear.
+- [x] ZCore exposes `MemoryRepository` through the core contract.
+- [x] ZCoreImpl uses persistent JsonMemoryRepository on Android.
+- [x] InMemoryMemoryRepository fallback added for JVM/non-Android tests where Application context is unavailable.
+- [x] Existing ZCore tests remained compatible after Memory integration.
+- [x] Pure-JVM JsonMemoryRepository tests created without requiring Android instrumentation.
+- [x] Memory tests cover save/get, same-ID update, delete, search and clear.
+- [x] Full `app:testDebugUnitTest` verification passed with 29 tests.
+- [x] Step 4 implementation commit created: `4cb5f46 Implement Step 4 persistent memory foundation`.
+- [x] Step 4 commit pushed to `main`.
+- [x] `git pull --ff-only origin main` returned `Already up to date`.
+- [x] HEAD verified as `4cb5f46`.
+
+Still pending:
+- [ ] Persistent conversation/message integration from Chat into Memory.
+- [ ] Stronger memory semantics/policy layer for what should and should not be persisted.
+- [ ] Explicit privacy/security boundaries for memory access and sensitive data.
+- [ ] More complete retrieval behavior for future context use.
+- [ ] Memory lifecycle/retention behavior beyond the current repository CRUD layer.
+- [ ] Integration/acceptance verification across ZCore + Chat + Memory.
+- [ ] Final Step 4 acceptance verification.
+
+Known implementation note:
+- Current JSON repository uses a temporary file and rename for writes, but the rename result is not explicitly checked.
+- Malformed/unreadable JSON currently falls back to an empty in-memory list. This is acceptable for the current foundation tests but should be reviewed before final memory acceptance because silent data loss/recovery behavior is not yet a complete policy.
+
+Step 4 is NOT COMPLETE. The current implementation is the persistent-memory foundation, not the finished conversation-memory/retrieval/security subsystem.
 
 ---
 
 ## 5. Voice System
 Status: [ ] NOT STARTED
 
+Planned:
+- Speech input/output.
+- Hindi/Hinglish-friendly interaction.
+- STT/TTS provider abstraction.
+- Future wake-word / “Wake up Z” capability.
+- Voice integrates with Z Core rather than becoming a separate assistant brain.
+
 ---
 
 ## 6. Vision System
 Status: [ ] NOT STARTED
+
+Planned:
+- Image understanding.
+- OCR/document understanding.
+- Multimodal routing.
+- Specialist vision models/providers as appropriate.
+- Replaceable model/provider architecture.
 
 ---
 
 ## 7. Tool System
 Status: [ ] NOT STARTED
 
+Planned:
+- Capability/skill registry.
+- Coding, files, software and creation capabilities where authorized.
+- Safe tool execution boundaries.
+
 ---
 
 ## 8. Agent / Task System
 Status: [ ] NOT STARTED
+
+Planned:
+- Multi-step planning.
+- Task state.
+- Execution/verification.
+- Recovery and retry.
 
 ---
 
 ## 9. Model & Resource Management
 Status: [ ] NOT STARTED
 
+Planned:
+- Hardware/resource detection.
+- CPU/GPU/Vulkan awareness.
+- CPU fallback.
+- Model storage and lifecycle management.
+- Resource-aware provider/model routing.
+
 ---
 
 ## 10. Avatar & Interaction
 Status: [ ] NOT STARTED
+
+Planned:
+- Avatar is Z/MAX's connected visual/interactive representation, not a separate AI brain.
+- Multimodal companion layer.
+- Voice, vision, memory, interaction and system-state integration.
+- Avatar states reflect actual Z runtime state rather than decorative animation.
 
 ---
 
 ## 11. Complete Integration + Testing
 Status: [ ] NOT STARTED
 
+Planned:
+- Cross-layer integration of Steps 1–10.
+- End-to-end provider/model/chat/memory/voice/vision/tool/agent/resource/avatar checks.
+- Failure/recovery verification.
+- Security/authorization verification.
+- Final regression testing.
+
 ---
 
-## 12. Final Z Release
+## 12. Final Z Release / Comprehensive Device Verification
 Status: [ ] NOT STARTED
+
+Definition:
+- Step 12 is the final comprehensive ADB/device verification gate after Steps 1–11 implementation work is complete.
+- Device-dependent behavior must be tested here where hardware/ADB is available.
+- Any failures found at this gate must be fixed and retested before Step 12 can be marked COMPLETE.
+- Final release packaging must not be treated as complete merely because an APK assembles.
 
 ---
 
 ## 13. Self-Development
 Status: [LOCKED]
+
 Rule:
-Self-development must NOT be implemented or enabled until Steps 1–12 are complete and verified.
+Self-development must NOT be implemented or enabled until Steps 1–12 are fully implemented, integrated, tested and verified.
+
+Required controlled loop:
+Need detected
+→ Plan
+→ Policy / owner authorization check
+→ Change
+→ Build
+→ Test
+→ Verify
+→ Accept OR Rollback
+→ Record
 
 ---
-
 # ACTIVE ARCHITECTURE
 
 ZApplication
@@ -210,8 +315,9 @@ No active Z feature may be implemented twice.
 
 ---
 
-# CURRENT FOUNDATION FILES
+# CURRENT ACTIVE FOUNDATION / AI / CHAT / MEMORY FILES
 
+Core / application:
 - app/src/main/java/com/example/z/core/ZCore.kt
 - app/src/main/java/com/example/z/core/ZCoreImpl.kt
 - app/src/main/java/com/example/z/ZApplication.kt
@@ -219,57 +325,78 @@ No active Z feature may be implemented twice.
 - app/src/main/java/com/example/z/Navigation.kt
 - app/src/main/java/com/example/z/ui/main/MainScreen.kt
 
+AI / model:
+- app/src/main/java/com/example/z/ai/
+- app/src/main/java/com/example/z/ai/... provider/runtime/JNI/model components as present in the working tree
+- app/src/main/cpp/ native llama.cpp/JNI sources as present in the working tree
+
+Chat:
+- app/src/main/java/com/example/z/chat/ChatMessage.kt
+- app/src/main/java/com/example/z/chat/ChatViewModel.kt
+- app/src/main/java/com/example/z/chat/ChatScreen.kt
+- app/src/main/java/com/example/z/chat/ streaming interfaces/components as present in the working tree
+
+Memory:
+- app/src/main/java/com/example/z/memory/MemoryEntry.kt
+- app/src/main/java/com/example/z/memory/MemoryRepository.kt
+- app/src/main/java/com/example/z/memory/JsonMemoryRepository.kt
+- app/src/main/java/com/example/z/memory/InMemoryMemoryRepository.kt
+
 Tests:
 - app/src/test/java/com/example/z/core/ZCoreImplTest.kt
 - app/src/test/java/com/example/z/ZApplicationCoreTest.kt
+- app/src/test/java/com/example/z/ai/
+- app/src/test/java/com/example/z/chat/
+- app/src/test/java/com/example/z/memory/JsonMemoryRepositoryTest.kt
+
+Important:
+- The repository currently contains additional uncommitted/untracked project files and backup files in the working tree.
+- Do NOT use `git add .` blindly.
+- Stage only the exact files belonging to a reviewed milestone.
+- Preserve backups unless their removal is explicitly reviewed and approved.
 
 ---
+# VERIFIED COMMANDS / RESULTS
 
-# VERIFIED COMMANDS
+Foundation history:
+- `./gradlew compileDebugKotlin` — BUILD SUCCESSFUL.
+- `./gradlew testDebugUnitTest` — BUILD SUCCESSFUL.
+- `./gradlew assembleDebug` — BUILD SUCCESSFUL.
 
-- Android SDK 34 installed
-- Official Android empty-activity project generated
-- ./gradlew compileDebugKotlin
-  Result: BUILD SUCCESSFUL
+Step 2 / provider/runtime verification history:
+- `./gradlew :app:compileDebugKotlin --no-daemon --max-workers=1` — BUILD SUCCESSFUL.
+- `./gradlew :app:testDebugUnitTest --no-daemon --max-workers=1` — BUILD SUCCESSFUL.
+- `./gradlew :app:compileDebugAndroidTestKotlin --no-daemon --max-workers=1` — BUILD SUCCESSFUL.
+- Native llama.cpp/JNI build verification passed.
+- Debug APK assembly verification passed.
 
-- ./gradlew testDebugUnitTest
-  Result: BUILD SUCCESSFUL
+Step 4 memory verification:
+- `./gradlew :app:compileDebugKotlin` — BUILD SUCCESSFUL after memory integration.
+- `./gradlew app:testDebugUnitTest` — BUILD SUCCESSFUL.
+- Final Step 4 unit-test run: 29 tests completed successfully.
+- Step 4 commit: `4cb5f46`.
+- `git pull --ff-only origin main` — Already up to date.
+- `git rev-parse --short HEAD` — `4cb5f46`.
 
-- ./gradlew assembleDebug
-  Result: BUILD SUCCESSFUL
+Important:
+- A successful build/test run does not by itself mark a roadmap step COMPLETE.
+- Runtime/device-dependent acceptance remains separate.
 
 ---
-
 # KNOWN WARNINGS / ISSUES
 
-- Gradle/Java restricted native-access warning appeared during builds/tests.
-  It did not cause build failure.
-- ZApplicationCoreTest currently verifies ZCoreImpl behavior rather than
-  a real Android Application lifecycle. It must not be counted as full
-  Application integration verification.
-- Legacy template files require dependency/reference review.
+- No physical Android device/emulator/ADB runtime has been available in the current workflow.
+- Therefore real Android GGUF inference/streaming, Android cancellation behavior and Android Keystore runtime behavior remain unverified.
+- No real API credential has been added; real online API request/response remains unverified.
+- Resource-aware provider selection is not yet a complete implementation.
+- Step 3 still needs persistent conversation integration with Memory.
+- Step 4 JSON memory foundation has the write/rename and malformed-JSON recovery behaviors documented above and needs a later robustness/policy review.
+- Gradle/Java restricted-native-access warnings appeared during builds/tests; they did not cause build failure.
+- The existing `ZApplicationCoreTest` does not replace real Android Application/device lifecycle verification.
+- The working tree contains unrelated/untracked files and backups. This is a repository hygiene risk if files are staged indiscriminately.
+- Historical milestone notes below are retained intentionally; they describe earlier states and must not be mistaken for the current roadmap status.
 
 ---
-
-# NOT DONE
-
-- Foundation final integration verification
-- Legacy/template cleanup verification
-- AI/model layer
-- Chat
-- Memory
-- Voice
-- Vision
-- Tools
-- Agent/task system
-- Model/resource management
-- Avatar
-- Complete integration/testing
-- Final release
-- Self-development
-
----
-
 # DEVELOPMENT RULES
 
 1. Never mark anything COMPLETE without implementation + integration + testing + verification.
@@ -287,6 +414,34 @@ Tests:
 13. Do not guess paths or dependencies.
 14. Do not make unnecessary environment changes.
 15. Every milestone must update this file.
+16. The roadmap status at the top of this file is the current authoritative status; historical milestone sections are history, not a second status source.
+17. Never mark a roadmap step COMPLETE solely because compilation or unit tests pass when runtime/device/service verification is part of its acceptance criteria.
+18. Step 12 is the final comprehensive ADB/device verification gate for Steps 1–12; failures must be fixed and retested before Step 12 completion.
+19. Step 13 Self-Development remains LOCKED until Step 12 is fully verified.
+
+# CURRENT VERIFIED SNAPSHOT
+
+Date: 2026-09-18
+
+Current roadmap status:
+- Step 1 Foundation & Architecture: IN PROGRESS.
+- Step 2 AI Brain / Model Layer: IN PROGRESS.
+- Step 3 Chat System: IN PROGRESS.
+- Step 4 Memory System: IN PROGRESS.
+- Steps 5–12: NOT STARTED.
+- Step 13 Self-Development: LOCKED.
+
+Latest verified milestone:
+- Step 4 persistent memory foundation committed as `4cb5f46` and pushed to `main`.
+- Full JVM unit-test suite passed with 29 tests after Memory integration.
+
+Latest earlier relevant commit:
+- Step 3 Chat/streaming work was committed as `58904dd` before Step 4.
+
+Critical rule:
+- No step is marked COMPLETE until its implementation, integration, tests and required verification all succeed.
+
+---
 
 ## VERIFIED MILESTONE — FOUNDATION WIRING / LEGACY CLEANUP
 Date: 2026-09-16
@@ -404,7 +559,7 @@ Not verified yet:
 - Real online API request/response.
 - Runtime Android Keystore save/retrieve/clear test; no device/emulator is currently available.
 - Real API credentials have NOT been added.
-- Real GGUF/native model inference remains incomplete.
+- Real GGUF/native model inference remained device-unverified at that milestone.
 
 Status:
 Online/API Provider Foundation = INCOMPLETE.
