@@ -150,7 +150,7 @@ Verified implementation:
 - [x] HEAD verified as `4cb5f46`.
 
 Still pending:
-- [ ] Persistent conversation/message integration from Chat into Memory.
+- [x] Persistent conversation/message integration from Chat into Memory.
 - [ ] Stronger memory semantics/policy layer for what should and should not be persisted.
 - [ ] Explicit privacy/security boundaries for memory access and sensitive data.
 - [ ] More complete retrieval behavior for future context use.
