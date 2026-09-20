@@ -62,8 +62,8 @@ class JsonMemoryRepositoryTest {
     @Test
     fun delete_removesEntry() = runBlocking {
         val repository = repository()
-        repository.save(entry("1", "name", "Z"))
 
+        repository.save(entry("1", "name", "Z"))
         repository.delete("1")
 
         assertNull(repository.get("1"))
@@ -91,5 +91,27 @@ class JsonMemoryRepositoryTest {
         repository.clear()
 
         assertTrue(repository.getAll().isEmpty())
+    }
+
+    @Test
+    fun malformedJson_throwsInsteadOfReturningEmptyMemory() = runBlocking {
+        val file = File.createTempFile("z-memory-malformed-", ".json")
+
+        try {
+            file.writeText("{not-valid-json")
+
+            val repository = JsonMemoryRepository(file)
+
+            var failed = false
+            try {
+                repository.getAll()
+            } catch (_: Exception) {
+                failed = true
+            }
+
+            assertTrue(failed)
+        } finally {
+            file.delete()
+        }
     }
 }

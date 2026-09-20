@@ -20,21 +20,17 @@ class JsonMemoryRepository(
     }
 
     private suspend fun readEntries(): MutableList<MemoryEntry> =
-        withContext(Dispatchers.IO) {
-            if (!file.exists()) {
-                mutableListOf()
-            } else {
-                runCatching {
-                    json.decodeFromString<List<MemoryEntry>>(
-                        file.readText()
-                    ).toMutableList()
-                }.getOrElse {
-                    mutableListOf()
-                }
-            }
+    withContext(Dispatchers.IO) {
+        if (!file.exists()) {
+            mutableListOf()
+        } else {
+            json.decodeFromString<List<MemoryEntry>>(
+                file.readText()
+            ).toMutableList()
         }
+    }
 
-    private suspend fun writeEntries(entries: List<MemoryEntry>) =
+private suspend fun writeEntries(entries: List<MemoryEntry>) =
         withContext(Dispatchers.IO) {
             val tempFile = File(
                 file.parentFile,
@@ -49,7 +45,9 @@ class JsonMemoryRepository(
                 file.delete()
             }
 
-            tempFile.renameTo(file)
+            if (!tempFile.renameTo(file)) {
+            throw java.io.IOException("Failed to replace memory file")
+        }
         }
 
     override suspend fun save(entry: MemoryEntry) {
